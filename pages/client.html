@@ -25,18 +25,18 @@
     <script src="/socket.io/socket.io.js"></script> <!-- 1 -->
     <script src="//code.jquery.com/jquery-1.11.1.js"></script>
     <script>
-      var socket = io(); //1
-      $('#chat').on('submit', function(e){ //2
+      var socket = io(); //socket.io를 사용하기 위해 반드시 필요한 과정입니다. socket.io.js를 가져오고, socket 변수를 설정합니다.
+      $('#chat').on('submit', function(e){ // jQuery의 'submit' event listener입니다. 입력창이 submit되면 서버로 'send message' 사용자 정의 event와 이름, 채팅메세지를 전달(emit)합니다. 
         socket.emit('send message', $('#name').val(), $('#message').val());
         $('#message').val('');
         $('#message').focus();
         e.preventDefault();
       });
-      socket.on('receive message', function(msg){ //3
+      socket.on('receive message', function(msg){ // socket의 'receive message' event listener입니다. 서버에서 'receive message' event가 emit되면 message를 '#chatLog'에 추가하고 스크롤을 합니다.
         $('#chatLog').append(msg+'\n');
         $('#chatLog').scrollTop($('#chatLog')[0].scrollHeight);
       });
-      socket.on('change name', function(name){ //4
+      socket.on('change name', function(name){ // socket의 'change name' event listener입니다. 서버에서 'change name' event가 emit되면 '#name'에 이름을 변경합니다.
         $('#name').val(name);
       });
     </script>
